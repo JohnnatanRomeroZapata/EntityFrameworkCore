@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "47ae548b-3579-4ea8-882b-f7f05d851d76": {
+      "ProjectGuid": "47ae548b-3579-4ea8-882b-f7f05d851d76",
+      "DisplayName": "EFCoreProject",
+      "ColorIndex": 0
+    },
+    "94ee6d7b-8d8b-48ce-8b38-15223ce35ea6": {
+      "ProjectGuid": "94ee6d7b-8d8b-48ce-8b38-15223ce35ea6",
+      "DisplayName": "EFCoreDataAccess",
+      "ColorIndex": 1
+    },
+    "32ef1887-58a3-4b4a-bc18-d01fd0f0ca7a": {
+      "ProjectGuid": "32ef1887-58a3-4b4a-bc18-d01fd0f0ca7a",
+      "DisplayName": "EFCoreModels",
+      "ColorIndex": 2
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 3
+}
