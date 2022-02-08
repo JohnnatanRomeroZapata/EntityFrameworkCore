@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCoreModels.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreDataAccess.Data
 {
@@ -9,6 +10,8 @@ namespace EFCoreDataAccess.Data
 
         }
 
+        DbSet<Category> Categories { get; set; }
 
+        DbSet<Gender> Genders { get; set; }
     }
 }
