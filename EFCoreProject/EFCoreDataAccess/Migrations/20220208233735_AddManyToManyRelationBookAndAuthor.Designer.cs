@@ -4,35 +4,22 @@ using EFCoreDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreDataAccess.Migrations
 {
     [DbContext(typeof(EFCoreProjectDbContext))]
-    partial class EFCoreProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208233735_AddManyToManyRelationBookAndAuthor")]
+    partial class AddManyToManyRelationBookAndAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("AuthorBook");
-                });
 
             modelBuilder.Entity("EFCoreModels.Models.Author", b =>
                 {
@@ -41,8 +28,14 @@ namespace EFCoreDataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("BookId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
@@ -51,6 +44,10 @@ namespace EFCoreDataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
 
                     b.ToTable("Authors");
                 });
@@ -160,19 +157,15 @@ namespace EFCoreDataAccess.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
+            modelBuilder.Entity("EFCoreModels.Models.Author", b =>
                 {
                     b.HasOne("EFCoreModels.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("AuthorList")
+                        .HasForeignKey("AuthorId");
 
                     b.HasOne("EFCoreModels.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("AuthorList")
+                        .HasForeignKey("BookId");
                 });
 
             modelBuilder.Entity("EFCoreModels.Models.Book", b =>
@@ -192,6 +185,16 @@ namespace EFCoreDataAccess.Migrations
                     b.Navigation("BookDetail");
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("EFCoreModels.Models.Author", b =>
+                {
+                    b.Navigation("AuthorList");
+                });
+
+            modelBuilder.Entity("EFCoreModels.Models.Book", b =>
+                {
+                    b.Navigation("AuthorList");
                 });
 
             modelBuilder.Entity("EFCoreModels.Models.BookDetail", b =>
