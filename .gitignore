@@ -9,6 +9,8 @@ bin-release/
 
 # Other files and folders
 .settings/
+DesignTimeBuild/
+.vs/
 
 # Executables
 *.swf

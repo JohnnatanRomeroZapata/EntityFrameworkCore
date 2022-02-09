@@ -13,5 +13,11 @@ namespace EFCoreDataAccess.Data
         DbSet<Category> Categories { get; set; }
 
         DbSet<Gender> Genders { get; set; }
+
+        DbSet<Book> Books { get; set; }
+
+        DbSet<Author> Authors { get; set; }
+
+        DbSet<Publisher> Publishers { get; set; }
     }
 }

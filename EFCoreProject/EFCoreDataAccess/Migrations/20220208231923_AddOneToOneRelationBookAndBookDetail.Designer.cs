@@ -4,35 +4,22 @@ using EFCoreDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreDataAccess.Migrations
 {
     [DbContext(typeof(EFCoreProjectDbContext))]
-    partial class EFCoreProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208231923_AddOneToOneRelationBookAndBookDetail")]
+    partial class AddOneToOneRelationBookAndBookDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("AuthorBook");
-                });
 
             modelBuilder.Entity("EFCoreModels.Models.Author", b =>
                 {
@@ -72,9 +59,6 @@ namespace EFCoreDataAccess.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("PublisherId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,8 +67,6 @@ namespace EFCoreDataAccess.Migrations
 
                     b.HasIndex("BookDetailId")
                         .IsUnique();
-
-                    b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
                 });
@@ -160,21 +142,6 @@ namespace EFCoreDataAccess.Migrations
                     b.ToTable("Publishers");
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.HasOne("EFCoreModels.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFCoreModels.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EFCoreModels.Models.Book", b =>
                 {
                     b.HasOne("EFCoreModels.Models.BookDetail", "BookDetail")
@@ -183,25 +150,12 @@ namespace EFCoreDataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFCoreModels.Models.Publisher", "Publisher")
-                        .WithMany("BookList")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("BookDetail");
-
-                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("EFCoreModels.Models.BookDetail", b =>
                 {
                     b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("EFCoreModels.Models.Publisher", b =>
-                {
-                    b.Navigation("BookList");
                 });
 #pragma warning restore 612, 618
         }

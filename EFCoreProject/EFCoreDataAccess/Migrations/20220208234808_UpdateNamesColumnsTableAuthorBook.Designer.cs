@@ -4,14 +4,16 @@ using EFCoreDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreDataAccess.Migrations
 {
     [DbContext(typeof(EFCoreProjectDbContext))]
-    partial class EFCoreProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208234808_UpdateNamesColumnsTableAuthorBook")]
+    partial class UpdateNamesColumnsTableAuthorBook
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,15 +23,15 @@ namespace EFCoreDataAccess.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<int>("AuthorId")
+                    b.Property<int>("AuthorIdId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BookId")
+                    b.Property<int>("BookIdId")
                         .HasColumnType("int");
 
-                    b.HasKey("AuthorId", "BookId");
+                    b.HasKey("AuthorIdId", "BookIdId");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookIdId");
 
                     b.ToTable("AuthorBook");
                 });
@@ -164,13 +166,13 @@ namespace EFCoreDataAccess.Migrations
                 {
                     b.HasOne("EFCoreModels.Models.Author", null)
                         .WithMany()
-                        .HasForeignKey("AuthorId")
+                        .HasForeignKey("AuthorIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreModels.Models.Book", null)
                         .WithMany()
-                        .HasForeignKey("BookId")
+                        .HasForeignKey("BookIdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
