@@ -4,14 +4,16 @@ using EFCoreDataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EFCoreDataAccess.Migrations
 {
     [DbContext(typeof(EFCoreProjectDbContext))]
-    partial class EFCoreProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220209185000_AddOneToOneFluentBookFluentBookDetail")]
+    partial class AddOneToOneFluentBookFluentBookDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,15 +23,15 @@ namespace EFCoreDataAccess.Migrations
 
             modelBuilder.Entity("AuthorBook", b =>
                 {
-                    b.Property<int>("AuthorsId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BooksId")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.HasKey("AuthorsId", "BooksId");
+                    b.HasKey("AuthorId", "BookId");
 
-                    b.HasIndex("BooksId");
+                    b.HasIndex("BookId");
 
                     b.ToTable("AuthorBook");
                 });
@@ -144,21 +146,6 @@ namespace EFCoreDataAccess.Migrations
                     b.ToTable("FluentAuthors");
                 });
 
-            modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentAuthorBook", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BookId");
-
-                    b.HasIndex("BookId");
-
-                    b.ToTable("FluentAuthorBook");
-                });
-
             modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentBook", b =>
                 {
                     b.Property<int>("Id")
@@ -167,9 +154,6 @@ namespace EFCoreDataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("FluentBookDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FluentPublisherId")
                         .HasColumnType("int");
 
                     b.Property<string>("ISBN")
@@ -188,8 +172,6 @@ namespace EFCoreDataAccess.Migrations
 
                     b.HasIndex("FluentBookDetailId")
                         .IsUnique();
-
-                    b.HasIndex("FluentPublisherId");
 
                     b.ToTable("FluentBooks");
                 });
@@ -273,13 +255,13 @@ namespace EFCoreDataAccess.Migrations
                 {
                     b.HasOne("EFCoreModels.Models.Author", null)
                         .WithMany()
-                        .HasForeignKey("AuthorsId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EFCoreModels.Models.Book", null)
                         .WithMany()
-                        .HasForeignKey("BooksId")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -293,7 +275,7 @@ namespace EFCoreDataAccess.Migrations
                         .IsRequired();
 
                     b.HasOne("EFCoreModels.Models.Publisher", "Publisher")
-                        .WithMany("Books")
+                        .WithMany("BookList")
                         .HasForeignKey("PublisherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -301,25 +283,6 @@ namespace EFCoreDataAccess.Migrations
                     b.Navigation("BookDetail");
 
                     b.Navigation("Publisher");
-                });
-
-            modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentAuthorBook", b =>
-                {
-                    b.HasOne("EFCoreModels.Models.FluentValidation.FluentAuthor", "FluentAuthor")
-                        .WithMany("FluentAuthorsBooks")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EFCoreModels.Models.FluentValidation.FluentBook", "FluentBook")
-                        .WithMany("FluentAuthorsBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FluentAuthor");
-
-                    b.Navigation("FluentBook");
                 });
 
             modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentBook", b =>
@@ -330,15 +293,7 @@ namespace EFCoreDataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EFCoreModels.Models.FluentValidation.FluentPublisher", "FluentPublisher")
-                        .WithMany("FluentBooks")
-                        .HasForeignKey("FluentPublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("FluentBookDetail");
-
-                    b.Navigation("FluentPublisher");
                 });
 
             modelBuilder.Entity("EFCoreModels.Models.BookDetail", b =>
@@ -346,29 +301,14 @@ namespace EFCoreDataAccess.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentAuthor", b =>
-                {
-                    b.Navigation("FluentAuthorsBooks");
-                });
-
-            modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentBook", b =>
-                {
-                    b.Navigation("FluentAuthorsBooks");
-                });
-
             modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentBookDetail", b =>
                 {
                     b.Navigation("FluentBook");
                 });
 
-            modelBuilder.Entity("EFCoreModels.Models.FluentValidation.FluentPublisher", b =>
-                {
-                    b.Navigation("FluentBooks");
-                });
-
             modelBuilder.Entity("EFCoreModels.Models.Publisher", b =>
                 {
-                    b.Navigation("Books");
+                    b.Navigation("BookList");
                 });
 #pragma warning restore 612, 618
         }

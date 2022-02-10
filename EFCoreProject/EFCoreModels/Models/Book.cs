@@ -26,6 +26,6 @@ namespace EFCoreModels.Models
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
-        public ICollection<Author> Author { get; set; }
+        public ICollection<Author> Authors { get; set; }
     }
 }
