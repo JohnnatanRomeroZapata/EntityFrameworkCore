@@ -16,6 +16,6 @@ namespace EFCoreModels.Models
 
         public string Location { get; set; }
 
-        public ICollection<Book> Book { get; set; }
+        public ICollection<Book> Books { get; set; }
     }
 }
