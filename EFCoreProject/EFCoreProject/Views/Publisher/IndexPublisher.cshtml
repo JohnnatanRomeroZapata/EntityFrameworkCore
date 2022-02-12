@@ -1,0 +1,58 @@
+﻿@model IEnumerable<EFCoreModels.Models.Publisher>
+
+<br />
+<br />
+
+<div class="border p-4 bg-white">
+    <div class="row">
+        <div class="col-10">
+            <h2 class="text-info">Publisher List</h2>
+        </div>
+        <div class="col-2 text-right">
+            <a asp-controller="Publisher" asp-action="CreateUpdatePublisher" class="btn btn-info form-control"> Create New </a>
+        </div>
+    </div>
+
+    <br />
+    
+    <div>
+        @if (Model.Any())
+        {
+            <table class="table table-striped border">
+                <tr class="table-secondary">
+                    <th>
+                        Publisher Name
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Location
+                        </td>
+                        <td>
+                            <a class="btn btn-primary text-white" asp-controller="Publisher" asp-action="CreateUpdatePublisher" asp-route-Id="@item.Id">
+                                Edit
+                            </a>
+
+                            <a class="btn btn-danger text-white" asp-controller="Publisher" asp-action="DeletePublisher" asp-route-Id="@item.Id">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+        else
+        {
+            <p>No publisher exists...</p>
+        }
+    </div>
+</div>

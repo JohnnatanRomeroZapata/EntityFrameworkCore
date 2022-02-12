@@ -12,17 +12,17 @@ namespace EFCoreDataAccess.Data
 
         }
 
-        DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
-        DbSet<Gender> Genders { get; set; }
+        public DbSet<Gender> Genders { get; set; }
 
-        DbSet<Book> Books { get; set; }
+        public DbSet<Book> Books { get; set; }
 
-        DbSet<Author> Authors { get; set; }
+        public DbSet<Author> Authors { get; set; }
 
-        DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
-        DbSet<BookDetail> BookDetails { get; set; }
+        public DbSet<BookDetail> BookDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

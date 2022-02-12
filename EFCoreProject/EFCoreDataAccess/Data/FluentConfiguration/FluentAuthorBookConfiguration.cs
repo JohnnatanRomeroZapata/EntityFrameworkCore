@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EFCoreDataAccess.Data.FluentConfiguration
 {
-    internal class FluentAuthorBookConfiguration : IEntityTypeConfiguration<FluentAuthorBook>
+    public class FluentAuthorBookConfiguration : IEntityTypeConfiguration<FluentAuthorBook>
     {
         public void Configure(EntityTypeBuilder<FluentAuthorBook> builder)
         {
