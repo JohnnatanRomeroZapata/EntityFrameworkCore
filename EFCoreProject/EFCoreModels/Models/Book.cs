@@ -20,7 +20,7 @@ namespace EFCoreModels.Models
         [Required]
         public double Price { get; set; }
 
-        public int BookDetailId { get; set; }
+        public int? BookDetailId { get; set; }
         public BookDetail BookDetail { get; set; }
 
         public int PublisherId { get; set; }

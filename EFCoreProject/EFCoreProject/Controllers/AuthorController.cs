@@ -46,6 +46,7 @@ namespace EFCoreProject.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreateUpdateAuthor(Author author)
         {
             if(!ModelState.IsValid)
