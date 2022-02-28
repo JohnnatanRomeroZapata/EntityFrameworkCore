@@ -1,0 +1,67 @@
+﻿@model EFCoreModels.Models.ViewModels.BookAuthorVM
+
+<div class="container p-3 border">
+    <div class="row">
+        <div class="col-6 form-group">
+            <form method="post" asp-controller="Book" asp-action="ManageAuthors" class="row">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <input type="hidden" asp-for="@Model.Book.Id" />
+                <input type="hidden" asp-for="@Model.Book.Authors" />
+
+                <div class="col-4">
+                    <label asp-for="@Model.Book.Title"></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" asp-for="@Model.Book.Title" class="form-control" disabled />
+                </div>
+                <div class="col-4 pt-3">
+                    <label asp-for="@Model.Author.Name"></label>
+                </div>
+                <div class="col-8">
+                    <select asp-for="@Model.Author.Id" asp-items="@Model.AuthorList" class="form-control">
+                        <option selected>-- Author List --</option>
+                    </select>
+                    @*@Html.DropDownListFor(u => u.BookAuthor.Author_Id, Model.AuthorList, "--Select Author--",
+                        new { @class = "form-control" })*@
+                </div>
+                <div class="col-4 offset-4">
+                    <button type="submit" asp-controller="Book" asp-action="ManageAuthors" class="btn btn-primary form-control">Add Association</button>
+                </div>
+                <div class="col-4">
+                    <a asp-controller="Book" asp-action="IndexBook" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+
+            <form method="post" asp-controller="Book" asp-action="DeleteReferencedAuthor">
+
+                <input type="hidden" asp-for="@Model.Book.Id" />
+                
+                <div class="row text-right">
+                    <div class="col-12 text-right h4 text-primary">
+                        Authors Associated to this Book:
+                    </div>
+                </div>
+
+                @foreach (var auth in Model.Book.Authors)
+                {
+                    <div class="row pb-2">
+                        <div class="col-8 text-right" style="font-size:23px;">@auth.Name</div>
+                        <div class="col-4">
+                            <button type="submit" asp-controller="Book" asp-action="DeleteReferencedAuthor" class="btn btn-danger form-control" asp-route-authorId="@auth.Id">Remove</button>
+                        </div>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

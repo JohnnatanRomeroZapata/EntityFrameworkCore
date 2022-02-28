@@ -21,7 +21,8 @@ namespace EFCoreProject.Controllers
         [HttpGet]
         public IActionResult IndexBook()
         {
-            IEnumerable<Book> books = _eFCoreProjectDbContext.Books.Include(b => b.Publisher);
+            IEnumerable<Book> books = _eFCoreProjectDbContext.Books.Include(b => b.Publisher)
+                                                                    .Include(b => b.Authors);
 
             return View(books);
         }
@@ -188,6 +189,56 @@ namespace EFCoreProject.Controllers
 
 
             return RedirectToAction(nameof(IndexBook));
+        }
+
+        [HttpGet]
+        public IActionResult ManageAuthors(int id)
+        {
+            BookAuthorVM bookAuthorVM = new BookAuthorVM();
+
+            bookAuthorVM.Book = _eFCoreProjectDbContext.Books.Include(a => a.Authors).FirstOrDefault(b => b.Id == id);
+
+            List<int> assignedAuthors = bookAuthorVM.Book.Authors.Select(a => a.Id).ToList();
+
+            var noAssignedAuthors = _eFCoreProjectDbContext.Authors.Where(a => !assignedAuthors.Contains(a.Id)).ToList();
+
+            bookAuthorVM.AuthorList = noAssignedAuthors.Select(a => new SelectListItem
+            {
+                Text = a.Name,
+                Value = a.Id.ToString(),
+            });
+
+            return View(bookAuthorVM);
+        }
+
+        [HttpPost]
+        public IActionResult ManageAuthors(BookAuthorVM bookAuthorVM)
+        {
+            if(bookAuthorVM.Book.Id != 0 && bookAuthorVM.Author.Id != 0)
+            {
+                var book = _eFCoreProjectDbContext.Books.Include(a => a.Authors).FirstOrDefault(b => b.Id == bookAuthorVM.Book.Id);
+                var author = _eFCoreProjectDbContext.Authors.FirstOrDefault(a => a.Id == bookAuthorVM.Author.Id);
+
+                book.Authors.Add(author);
+                _eFCoreProjectDbContext.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(ManageAuthors) , new { @id = bookAuthorVM.Book.Id});
+        }
+
+        [HttpPost]
+        public IActionResult DeleteReferencedAuthor(int authorId, BookAuthorVM bookAuthorVM)
+        {
+            if (bookAuthorVM.Book.Id != 0 && authorId != 0)
+            {
+                var book = _eFCoreProjectDbContext.Books.Include(a => a.Authors).FirstOrDefault(b => b.Id == bookAuthorVM.Book.Id);
+                var author = _eFCoreProjectDbContext.Authors.FirstOrDefault(a => a.Id == authorId);
+
+                book.Authors.Remove(author);
+                _eFCoreProjectDbContext.SaveChanges();
+            }
+                
+            return RedirectToAction(nameof(ManageAuthors), new { @id = bookAuthorVM.Book.Id });
         }
     }
 }
